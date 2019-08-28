@@ -1,21 +1,15 @@
-import csv
 import pandas as pd
-import numpy as np
 import seaborn as sns
-from matplotlib import figure
 import matplotlib.pyplot as plt
-
+from pandas.api.types import CategoricalDtype
 
 plt.style.use('bmh')
-
-df = pd.read_csv('test_data.csv');
-df.head()
-df.info()
-
-print('Description of the price :')
-print(df['Price'].describe())
-plt.figure(figsize=(9, 8))
-sns.distplot(df['Price'], bins=100,hist_kws={'alpha': 0.4},color='g');
-#x = np.random.normal(size=100)
-#sns.distplot(x);
+df = pd.read_csv("immoweb.csv",encoding = "ISO-8859-1")
+df.Price = df.Price.fillna(0)
+print(df.groupby('Title').mean()['Price'].astype(int).sort_values())
+sns.boxplot(x='Zip', y='Price', data=df)
+plt.xlabel("Zip")
+plt.xticks(rotation=75)
+plt.ylabel("Price Euro")
+plt.title("Prices by Neighborhood")
 plt.show()
