@@ -4,31 +4,38 @@ import matplotlib.pyplot as plt
 from pandas.api.types import CategoricalDtype
 
 plt.style.use('bmh')
-df = pd.read_csv("clean_data_test.csv",encoding = "ISO-8859-1")
+df = pd.read_csv("immoweb.csv",encoding = "ISO-8859-1")
+df= df.dropna()
 '''1. Histogram : House prices in BXL area
 Step 01: Get the min and max of your data set
 min = 35.000
-max = 680.0000
+max = 1.000.000
 Step 02: Define the binwidth
 (you test till you find the right binwidth)
-binwidth = 10.000
+binwidth = 50.000
 Step 03: Draw your Histogram
 For this plot, I will use bins that are 10.000 euros in length,
-which means that the number of bins will be the range of the data (from 30.000 to 680.000)
-divided by the binwidth, 40.000 euros (bins = int(645000/10000) IMPORTANT: bins must be integers in seaborn)
+which means that the number of bins will be the range of the data (from 35.000 to 1.000.000)
+divided by the binwidth, 40.000 euros (bins = int(965000/10000) IMPORTANT: bins must be integers in seaborn)
 (see https://en.wikipedia.org/wiki/Histogram)
 '''
+df['Price']= df['Price'].astype(int)
 print(df['Price'].describe())
+
 print('===DONE===')
 # Draw the plot
-binwidth = 50000
-plt.hist(df['Price'], bins = int(645000/binwidth),
+binwidth = 100000
+ax = df.plot(x='Price')
+ax.locator_params(integer=True)
+plt.hist(df['Price'].astype(int), bins = int(965000/binwidth),
          color = 'blue', edgecolor = 'black')
 # Title and labels
 plt.title('Histogram of house prices in Brussels area')
 plt.xlabel('Prices (Euro)')
 plt.ylabel('Frequency')
+print(df['Price'].describe())
 plt.show()
+
 '''First of all let's look at the distribution of house pricing regardeless of the appartment's surface'''
 '''2. Density plot: House prices in BXL area
 - The x-axis is the value of the variable just like in a histogram
